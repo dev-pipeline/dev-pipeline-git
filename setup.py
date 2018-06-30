@@ -10,6 +10,10 @@ setup(
     },
     packages=['devpipeline_plugins.git'],
 
+    install_requires=[
+        'dev-pipeline >= 0.2.0'
+    ],
+
     author="Stephen Newell",
     description="git plugin for dev-pipeline",
     license="BSD-2",
