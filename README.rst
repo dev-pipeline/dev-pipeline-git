@@ -28,7 +28,7 @@ but it should be available for pretty much every operating system.
 
 Using
 -----
-You can use :code:`git` as an option for `scm` in a :code:`build.config`.
+You can use :code:`git` as an option for :code:`scm` in a :code:`build.config`.
 
 .. |codacy| image:: https://api.codacy.com/project/badge/Grade/b2b62cb231324e34b257993e01069df7
     :target: https://www.codacy.com/app/snewell/dev-pipeline-git?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dev-pipeline/dev-pipeline-git&amp;utm_campaign=Badge_Grade
