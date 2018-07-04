@@ -7,7 +7,7 @@ import os.path
 import re
 import subprocess
 
-import devpipeline.toolsupport
+import devpipeline_core.toolsupport
 
 
 def _merge_command(match, repo_dir):
@@ -122,7 +122,7 @@ def _make_git(current_target, common_wrapper):
         args_key, args_value = _GIT_ARG_FNS[key](value)
         git_args[args_key] = args_value
 
-    devpipeline.toolsupport.args_builder(
+    devpipeline_core.toolsupport.args_builder(
         "git", current_target, _GIT_ARGS, _add_value)
     if git_args.get("uri"):
         return common_wrapper(Git(git_args))

@@ -11,7 +11,7 @@ setup(
     packages=['devpipeline_git'],
 
     install_requires=[
-        'dev-pipeline >= 0.2.0'
+        'dev-pipeline-core >= 0.2.0'
     ],
 
     entry_points={
