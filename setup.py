@@ -16,7 +16,7 @@ setup(
 
     entry_points={
         'devpipeline.scms': [
-            'git = devpipeline_git:make_git',
+            'git = devpipeline_git:_GIT_SCM'
         ]
     },
 
