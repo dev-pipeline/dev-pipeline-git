@@ -32,7 +32,6 @@ setup(
     classifiers=[
         "Development Status :: 2 - Pre-Alpha",
         "Environment :: Plugins",
-        "Framework :: dev-pipeline",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: BSD License",
         "Topic :: Software Development",
