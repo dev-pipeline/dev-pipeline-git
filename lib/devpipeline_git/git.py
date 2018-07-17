@@ -8,6 +8,7 @@ import re
 import subprocess
 
 import devpipeline_core.toolsupport
+import devpipeline_scm
 
 
 def _merge_command(match, repo_dir):
@@ -114,7 +115,7 @@ _GIT_ARG_FNS = {
 }
 
 
-def _make_git(current_target, common_wrapper):
+def _make_git(current_target):
     """This function initializes and Git SCM tool object."""
     git_args = {}
 
@@ -125,7 +126,7 @@ def _make_git(current_target, common_wrapper):
     devpipeline_core.toolsupport.args_builder(
         "git", current_target, _GIT_ARGS, _add_value)
     if git_args.get("uri"):
-        return common_wrapper(Git(git_args))
+        return devpipeline_scm.make_simple_scm(Git(git_args), current_target)
     else:
         raise Exception("No git uri ({})".format(
             current_target["current_target"]))

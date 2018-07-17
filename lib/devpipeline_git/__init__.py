@@ -9,7 +9,7 @@ that supports git.
 import devpipeline_git.git
 
 
-def make_git(current_target, common_wrapper):
+def make_git(current_target):
     """
     Create a class that provides git SCM support.
 
@@ -19,6 +19,6 @@ def make_git(current_target, common_wrapper):
     common_wrapper - A function to hook into executors and other common
                      functionality.
     """
-    return devpipeline_git.git._make_git(current_target, common_wrapper)
+    return devpipeline_git.git._make_git(current_target)
 
 _GIT_SCM = (make_git, "Support the git scm tool.")
