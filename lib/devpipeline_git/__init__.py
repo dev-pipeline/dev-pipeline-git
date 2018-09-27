@@ -21,4 +21,10 @@ def make_git(current_target):
     """
     return devpipeline_git.git._make_git(current_target)
 
-_GIT_SCM = (make_git, "Support the git scm tool.")
+_MAJOR = 0
+_MINOR = 2
+_PATCH = 0
+
+_STRING = "{}.{}.{}".format(_MAJOR, _MINOR, _PATCH)
+
+_GIT_SCM = (make_git, "({}) Support the git scm tool.".format(_STRING))
