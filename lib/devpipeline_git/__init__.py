@@ -19,7 +19,9 @@ def make_git(current_target):
     common_wrapper - A function to hook into executors and other common
                      functionality.
     """
+    # pylint: disable=protected-access
     return devpipeline_git.git._make_git(current_target)
+
 
 _MAJOR = 0
 _MINOR = 2
