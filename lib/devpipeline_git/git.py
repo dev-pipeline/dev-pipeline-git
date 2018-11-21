@@ -62,6 +62,17 @@ def _ff_command(revision, repo_dir):
     return []
 
 
+def _make_clone_command(uri, clone_dir):
+    return [{
+        "args": [
+            'git',
+            'clone',
+            uri,
+            clone_dir
+        ]
+    }]
+
+
 class Git:
 
     """This class is the core class to handle Git SCM operations."""
@@ -69,17 +80,19 @@ class Git:
     def __init__(self, args):
         self._args = args
 
-    def checkout(self, repo_dir):
+    def checkout(self, repo_dir, shared_dir):
         """This function checks out code from a Git SCM server."""
         if not os.path.isdir(repo_dir):
-            return [{
-                "args": [
-                    'git',
-                    'clone',
-                    self._args["uri"],
-                    repo_dir
-                ]
-            }]
+            # make the initial clone
+            if shared_dir:
+                clone_dir = repo_dir
+                second_clone = []
+                # used the shared folder if we can
+                if not os.path.isdir(shared_dir):
+                    clone_dir = shared_dir
+                    second_clone = _make_clone_command(shared_dir, repo_dir)
+                # initial clone
+            return _make_clone_command(self._args["uri"], clone_dir) + second_clone
         return [{
             "args": [
                 'git',
