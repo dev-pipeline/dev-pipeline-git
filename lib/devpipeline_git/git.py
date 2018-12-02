@@ -62,14 +62,26 @@ def _ff_command(revision, repo_dir):
     return []
 
 
-def _make_clone_command(uri, clone_dir):
+def _make_clone_command(uri, clone_dir, bare=False):
+    clone = ["git", "clone"]
+    args = [uri, clone_dir]
+    bare_args = []
+
+    if bare:
+        bare_args = ["--bare"]
+
+    return [{
+        "args": clone + args + bare_args
+    }]
+
+
+def _make_fetch_command(repo_dir):
     return [{
         "args": [
             'git',
-            'clone',
-            uri,
-            clone_dir
-        ]
+            'fetch'
+        ],
+        "cwd": repo_dir
     }]
 
 
@@ -82,24 +94,23 @@ class Git:
 
     def checkout(self, repo_dir, shared_dir):
         """This function checks out code from a Git SCM server."""
+        args = []
+        if shared_dir:
+            if not os.path.isdir(shared_dir):
+                # initial clone for the shared directory
+                args.extend(_make_clone_command(self._args["uri"],
+                                                shared_dir, True))
+            elif not os.path.isdir(repo_dir):
+                # if this is a new version being checked out,
+                # fetch the latest code
+                args.extend(_make_fetch_command(shared_dir))
         if not os.path.isdir(repo_dir):
-            # make the initial clone
             if shared_dir:
-                clone_dir = repo_dir
-                second_clone = []
                 # used the shared folder if we can
-                if not os.path.isdir(shared_dir):
-                    clone_dir = shared_dir
-                    second_clone = _make_clone_command(shared_dir, repo_dir)
-                # initial clone
-            return _make_clone_command(self._args["uri"], clone_dir) + second_clone
-        return [{
-            "args": [
-                'git',
-                'fetch'
-            ],
-            "cwd": repo_dir
-        }]
+                args.extend(_make_clone_command(shared_dir, repo_dir))
+            else:
+                args.extend(_make_clone_command(self._args["uri"], repo_dir))
+        return args
 
     def update(self, repo_dir):
         """This function updates an existing checkout of source code."""
