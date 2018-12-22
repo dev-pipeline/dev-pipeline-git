@@ -12,7 +12,7 @@ import devpipeline_scm
 
 
 def _merge_command(match, repo_dir):
-    branch_pattern = re.compile(R"^{} ([\w/]+)".format(match.group(1)))
+    branch_pattern = re.compile(r"^{} ([\w/]+)".format(match.group(1)))
 
     def _check_line(line):
         # We're going to take a line from the git for-each-ref command and
@@ -20,15 +20,12 @@ def _merge_command(match, repo_dir):
         # fast-forward merge.
         matches = branch_pattern.match(line)
         if matches:
-            return [{
-                "args": [
-                    "git",
-                    "merge",
-                    "--ff-only",
-                    matches.group(1)
-                ],
-                "cwd": repo_dir
-            }]
+            return [
+                {
+                    "args": ["git", "merge", "--ff-only", matches.group(1)],
+                    "cwd": repo_dir,
+                }
+            ]
         return None
 
     # This will give output similar to this:
@@ -39,12 +36,16 @@ def _merge_command(match, repo_dir):
     # branch for a fastforward merge.  This protects against somebody using
     # dev-pipeline to get started on a project, then switching the branch to
     # track their fork of an upstream project.
-    with subprocess.Popen([
-        "git",
-        "for-each-ref",
-        "--format=%(refname:short) %(upstream:short)",
-        "refs/heads"
-    ], cwd=repo_dir, stdout=subprocess.PIPE) as proc:
+    with subprocess.Popen(
+        [
+            "git",
+            "for-each-ref",
+            "--format=%(refname:short) %(upstream:short)",
+            "refs/heads",
+        ],
+        cwd=repo_dir,
+        stdout=subprocess.PIPE,
+    ) as proc:
         for line in io.TextIOWrapper(proc.stdout, encoding="utf-8"):
             result = _check_line(line)
             if result:
@@ -56,7 +57,7 @@ def _ff_command(revision, repo_dir):
     if os.path.isdir(repo_dir):
         # If the revision is something weird like master~~^4~14, we want to get
         # the actual branch so it can be updated.
-        match = re.match(R"([\w\-\.]+)(?:[~^\d]+)?", revision)
+        match = re.match(r"([\w\-\.]+)(?:[~^\d]+)?", revision)
         if match:
             return _merge_command(match, repo_dir)
     return []
@@ -70,19 +71,11 @@ def _make_clone_command(uri, clone_dir, bare=False):
     if bare:
         bare_args = ["--bare"]
 
-    return [{
-        "args": clone + args + bare_args
-    }]
+    return [{"args": clone + args + bare_args}]
 
 
 def _make_fetch_command(repo_dir):
-    return [{
-        "args": [
-            'git',
-            'fetch'
-        ],
-        "cwd": repo_dir
-    }]
+    return [{"args": ["git", "fetch"], "cwd": repo_dir}]
 
 
 class Git:
@@ -98,8 +91,7 @@ class Git:
         if shared_dir:
             if not os.path.isdir(shared_dir):
                 # initial clone for the shared directory
-                args.extend(_make_clone_command(self._args["uri"],
-                                                shared_dir, True))
+                args.extend(_make_clone_command(self._args["uri"], shared_dir, True))
             elif not os.path.isdir(repo_dir):
                 # if this is a new version being checked out,
                 # fetch the latest code
@@ -116,27 +108,16 @@ class Git:
         """This function updates an existing checkout of source code."""
         rev = self._args.get("revision")
         if rev:
-            return [{
-                "args": [
-                    'git',
-                    'checkout',
-                    rev
-                ],
-                "cwd": repo_dir
-            }] + _ff_command(rev, repo_dir)
+            return [{"args": ["git", "checkout", rev], "cwd": repo_dir}] + _ff_command(
+                rev, repo_dir
+            )
         return None
 
 
-_GIT_ARGS = {
-    "uri": None,
-    "revision": None
-}
+_GIT_ARGS = {"uri": None, "revision": None}
 
 
-_GIT_ARG_FNS = {
-    "uri": lambda v: ("uri", v),
-    "revision": lambda v: ("revision", v)
-}
+_GIT_ARG_FNS = {"uri": lambda v: ("uri", v), "revision": lambda v: ("revision", v)}
 
 
 def _make_git(current_target):
@@ -148,9 +129,9 @@ def _make_git(current_target):
         git_args[args_key] = args_value
 
     devpipeline_core.toolsupport.args_builder(
-        "git", current_target, _GIT_ARGS, _add_value)
+        "git", current_target, _GIT_ARGS, _add_value
+    )
     if git_args.get("uri"):
         return devpipeline_scm.make_simple_scm(Git(git_args), current_target)
     else:
-        raise Exception("No git uri ({})".format(
-            current_target["current_target"]))
+        raise Exception("No git uri ({})".format(current_target["current_target"]))
