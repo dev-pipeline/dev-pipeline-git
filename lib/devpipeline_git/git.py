@@ -120,7 +120,7 @@ _GIT_ARGS = {"uri": None, "revision": None}
 _GIT_ARG_FNS = {"uri": lambda v: ("uri", v), "revision": lambda v: ("revision", v)}
 
 
-def _make_git(current_target):
+def _make_git(config_info):
     """This function initializes and Git SCM tool object."""
     git_args = {}
 
@@ -128,10 +128,8 @@ def _make_git(current_target):
         args_key, args_value = _GIT_ARG_FNS[key](value)
         git_args[args_key] = args_value
 
-    devpipeline_core.toolsupport.args_builder(
-        "git", current_target, _GIT_ARGS, _add_value
-    )
+    devpipeline_core.toolsupport.args_builder("git", config_info, _GIT_ARGS, _add_value)
     if git_args.get("uri"):
-        return devpipeline_scm.make_simple_scm(Git(git_args), current_target)
+        return devpipeline_scm.make_simple_scm(Git(git_args), config_info)
     else:
-        raise Exception("No git uri ({})".format(current_target["current_target"]))
+        raise Exception("No git uri ({})".format(config_info.config.name))
