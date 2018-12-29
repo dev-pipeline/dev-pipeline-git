@@ -85,8 +85,9 @@ class Git:
     def __init__(self, args):
         self._args = args
 
-    def checkout(self, repo_dir, shared_dir):
+    def checkout(self, repo_dir, shared_dir, **kwargs):
         """This function checks out code from a Git SCM server."""
+        del kwargs
         args = []
         if shared_dir:
             if not os.path.isdir(shared_dir):
@@ -104,8 +105,9 @@ class Git:
                 args.extend(_make_clone_command(self._args["uri"], repo_dir))
         return args
 
-    def update(self, repo_dir):
+    def update(self, repo_dir, **kwargs):
         """This function updates an existing checkout of source code."""
+        del kwargs
         rev = self._args.get("revision")
         if rev:
             return [{"args": ["git", "checkout", rev], "cwd": repo_dir}] + _ff_command(
