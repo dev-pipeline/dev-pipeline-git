@@ -9,6 +9,21 @@ that supports git.
 import devpipeline_git.git
 
 
+def _check_missing_value(configuration, key, error_fn):
+    for name, component in configuration.items():
+        if component.get("scm.tool") == "git":
+            if key not in component:
+                error_fn("{} doesn't specify {}".format(name, key))
+
+
+def _check_missing_uri(configuration, error_fn):
+    _check_missing_value(configuration, "git.uri", error_fn)
+
+
+def _check_missing_revision(configuration, error_fn):
+    _check_missing_value(configuration, "git.revision", error_fn)
+
+
 def make_git(current_target):
     """
     Create a class that provides git SCM support.

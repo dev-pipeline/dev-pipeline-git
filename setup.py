@@ -16,7 +16,13 @@ setup(
         "dev-pipeline-core >= {}".format(_VERSION),
         "dev-pipeline-scm >= {}".format(_VERSION),
     ],
-    entry_points={"devpipeline.scms": ["git = devpipeline_git:_GIT_SCM"]},
+    entry_points={
+        "devpipeline.scms": ["git = devpipeline_git:_GIT_SCM"],
+        "devpipeline.config_sanitizers": [
+            "missing-git-uri = devpipeline_git:_check_missing_uri",
+            "missing-git-revision = devpipeline_git:_check_missing_revision"
+        ],
+    },
     author="Stephen Newell",
     description="git plugin for dev-pipeline",
     long_description=long_description,
