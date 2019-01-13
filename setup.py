@@ -20,7 +20,7 @@ setup(
         "devpipeline.scms": ["git = devpipeline_git:_GIT_SCM"],
         "devpipeline.config_sanitizers": [
             "missing-git-uri = devpipeline_git:_check_missing_uri",
-            "missing-git-revision = devpipeline_git:_check_missing_revision"
+            "missing-git-revision = devpipeline_git:_check_missing_revision",
         ],
     },
     author="Stephen Newell",

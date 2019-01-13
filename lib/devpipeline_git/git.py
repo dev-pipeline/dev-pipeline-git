@@ -103,6 +103,8 @@ class Git:
                 args.extend(_make_clone_command(shared_dir, repo_dir))
             else:
                 args.extend(_make_clone_command(self._args["uri"], repo_dir))
+        elif not shared_dir:
+            args.extend(_make_fetch_command(repo_dir))
         return args
 
     def update(self, repo_dir, **kwargs):
