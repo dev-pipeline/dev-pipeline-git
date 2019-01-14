@@ -78,6 +78,35 @@ def _make_fetch_command(repo_dir):
     return [{"args": ["git", "fetch"], "cwd": repo_dir}]
 
 
+def _handle_shared_args(shared_dir, repo_dir, git_args):
+    args = []
+    if shared_dir:
+        if not os.path.isdir(shared_dir):
+            # initial clone for the shared directory
+            args.extend(_make_clone_command(git_args["uri"], shared_dir, True))
+        elif not os.path.isdir(repo_dir):
+            # if this is a new version being checked out,
+            # fetch the latest code
+            args.extend(_make_fetch_command(shared_dir))
+    return args
+
+
+def _handle_repo_args(shared_dir, repo_dir, git_args):
+    args = []
+    if not os.path.isdir(repo_dir):
+        if shared_dir:
+            # used the shared folder if we can
+            args.extend(_make_clone_command(shared_dir, repo_dir))
+        else:
+            args.extend(_make_clone_command(git_args["uri"], repo_dir))
+    elif not shared_dir:
+        args.extend(_make_fetch_command(repo_dir))
+    return args
+
+
+_CHECKOUT_ARG_BUILDERS = [_handle_shared_args, _handle_repo_args]
+
+
 class Git:
 
     """This class is the core class to handle Git SCM operations."""
@@ -89,22 +118,8 @@ class Git:
         """This function checks out code from a Git SCM server."""
         del kwargs
         args = []
-        if shared_dir:
-            if not os.path.isdir(shared_dir):
-                # initial clone for the shared directory
-                args.extend(_make_clone_command(self._args["uri"], shared_dir, True))
-            elif not os.path.isdir(repo_dir):
-                # if this is a new version being checked out,
-                # fetch the latest code
-                args.extend(_make_fetch_command(shared_dir))
-        if not os.path.isdir(repo_dir):
-            if shared_dir:
-                # used the shared folder if we can
-                args.extend(_make_clone_command(shared_dir, repo_dir))
-            else:
-                args.extend(_make_clone_command(self._args["uri"], repo_dir))
-        elif not shared_dir:
-            args.extend(_make_fetch_command(repo_dir))
+        for checkout_fn in _CHECKOUT_ARG_BUILDERS:
+            args.extend(checkout_fn(shared_dir, repo_dir, self._args))
         return args
 
     def update(self, repo_dir, **kwargs):
