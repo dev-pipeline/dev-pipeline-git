@@ -9,7 +9,7 @@ _VERSION = "0.4.0"
 
 setup(
     name="dev-pipeline-git",
-    version=_VERSION,
+    version="0.4.1",
     package_dir={"": "lib"},
     packages=find_packages("lib"),
     install_requires=[
@@ -17,7 +17,7 @@ setup(
         "dev-pipeline-scm >= {}".format(_VERSION),
     ],
     entry_points={
-        "devpipeline.scms": ["git = devpipeline_git:_GIT_SCM"],
+        "devpipeline.scms": ["git = devpipeline_git.git:_GIT_SCM"],
         "devpipeline.config_sanitizers": [
             "missing-git-uri = devpipeline_git:_check_missing_uri",
             "missing-git-revision = devpipeline_git:_check_missing_revision",

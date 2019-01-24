@@ -8,6 +8,7 @@ import re
 import subprocess
 
 import devpipeline_core.toolsupport
+import devpipeline_git
 import devpipeline_scm
 
 
@@ -152,3 +153,7 @@ def _make_git(config_info):
         return devpipeline_scm.make_simple_scm(Git(git_args), config_info)
     else:
         raise Exception("No git uri ({})".format(config_info.config.name))
+
+
+# pylint: disable=protected-access
+_GIT_SCM = (_make_git, "({}) Support the git scm tool.".format(devpipeline_git._STRING))
