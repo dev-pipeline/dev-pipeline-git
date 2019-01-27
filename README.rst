@@ -2,6 +2,8 @@ dev-pipeline-git
 ================
 |codacy|
 |code-climate|
+|lgtm|
+|lgtm-quality|
 
 A git_ plugin for `dev-pipeline`_
 
@@ -34,10 +36,13 @@ Information about options you can set are in the documentation_.
 
 .. |codacy| image:: https://api.codacy.com/project/badge/Grade/b2b62cb231324e34b257993e01069df7
     :target: https://www.codacy.com/app/snewell/dev-pipeline-git?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dev-pipeline/dev-pipeline-git&amp;utm_campaign=Badge_Grade
-
 .. |code-climate| image:: https://api.codeclimate.com/v1/badges/2964d5af32e85e382e98/maintainability
    :target: https://codeclimate.com/github/dev-pipeline/dev-pipeline-git/maintainability
    :alt: Maintainability
+.. |lgtm| image:: https://img.shields.io/lgtm/alerts/g/dev-pipeline/dev-pipeline-git.svg?logo=lgtm&logoWidth=18
+    :target: https://lgtm.com/projects/g/dev-pipeline/dev-pipeline-git/alerts/
+.. |lgtm-quality| image:: https://img.shields.io/lgtm/grade/python/g/dev-pipeline/dev-pipeline-git.svg?logo=lgtm&logoWidth=18
+    :target: https://lgtm.com/projects/g/dev-pipeline/dev-pipeline-git/context:python
 
 .. _dev-pipeline: https://github.com/dev-pipeline/dev-pipeline
 .. _documentation: docs/scm-git.rst
