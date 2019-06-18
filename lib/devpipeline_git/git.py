@@ -13,7 +13,7 @@ import devpipeline_scm
 
 
 def _merge_command(match, repo_dir):
-    branch_pattern = re.compile(r"^{} ([\w/]+)".format(match.group(1)))
+    branch_pattern = re.compile(r"^{} ([\w/-]+)".format(match.group(1)))
 
     def _check_line(line):
         # We're going to take a line from the git for-each-ref command and
