@@ -5,11 +5,11 @@ from setuptools import setup, find_packages
 with open("README.rst") as f:
     long_description = f.read()
 
-_VERSION = "0.4.2"
+_VERSION = "0.4.3"
 
 setup(
     name="dev-pipeline-git",
-    version="0.4.1",
+    version="0.4.3",
     package_dir={"": "lib"},
     packages=find_packages("lib"),
     install_requires=[

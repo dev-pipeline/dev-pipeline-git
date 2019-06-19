@@ -24,6 +24,6 @@ def _check_missing_revision(configuration, error_fn):
 
 _MAJOR = 0
 _MINOR = 4
-_PATCH = 2
+_PATCH = 3
 
 _STRING = "{}.{}.{}".format(_MAJOR, _MINOR, _PATCH)
