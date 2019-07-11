@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 with open("README.rst") as f:
     long_description = f.read()
 
-_VERSION = "0.4.3"
+_VERSION = "0.4.0"
 
 setup(
     name="dev-pipeline-git",
