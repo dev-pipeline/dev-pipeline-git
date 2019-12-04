@@ -9,7 +9,7 @@ _VERSION = "0.4.0"
 
 setup(
     name="dev-pipeline-git",
-    version="0.4.3",
+    version="0.4.4",
     package_dir={"": "lib"},
     packages=find_packages("lib"),
     install_requires=[
